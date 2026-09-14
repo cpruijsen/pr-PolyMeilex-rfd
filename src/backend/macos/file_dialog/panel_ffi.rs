@@ -148,17 +148,9 @@ trait PanelExt {
         }
     }
 
-    fn set_path(&self, path: &Path, file_name: Option<&str>) {
-        // if file_name is some, and path is a dir
-        let path = if let (Some(name), true) = (file_name, path.is_dir()) {
-            let mut path = path.to_owned();
-            // add a name to the end of path
-            path.push(name);
-            path
-        } else {
-            path.to_owned()
-        };
-
+    fn set_path(&self, path: &Path) {
+        // directoryURL must point at a directory; a starting file name is
+        // applied separately through `setNameFieldStringValue`.
         if let Some(path) = path.to_str() {
             unsafe {
                 let url = NSURL::fileURLWithPath_isDirectory(&NSString::from_str(path), true);
@@ -306,7 +298,7 @@ impl Panel {
         }
 
         if let Some(path) = &opt.starting_directory {
-            panel.set_path(path, opt.file_name.as_deref());
+            panel.set_path(path);
         }
 
         if let Some(file_name) = &opt.file_name {
@@ -369,7 +361,7 @@ impl Panel {
         };
 
         if let Some(path) = &opt.starting_directory {
-            panel.set_path(path, opt.file_name.as_deref());
+            panel.set_path(path);
         }
 
         if let Some(file_name) = &opt.file_name {
@@ -397,7 +389,7 @@ impl Panel {
         let panel = unsafe { NSOpenPanel::openPanel(mtm) };
 
         if let Some(path) = &opt.starting_directory {
-            panel.set_path(path, opt.file_name.as_deref());
+            panel.set_path(path);
         }
 
         if let Some(title) = &opt.title {
@@ -421,7 +413,7 @@ impl Panel {
         let panel = unsafe { NSOpenPanel::openPanel(mtm) };
 
         if let Some(path) = &opt.starting_directory {
-            panel.set_path(path, opt.file_name.as_deref());
+            panel.set_path(path);
         }
 
         if let Some(title) = &opt.title {
@@ -450,7 +442,7 @@ impl Panel {
         }
 
         if let Some(path) = &opt.starting_directory {
-            panel.set_path(path, opt.file_name.as_deref());
+            panel.set_path(path);
         }
 
         if let Some(title) = &opt.title {
@@ -480,7 +472,7 @@ impl Panel {
         }
 
         if let Some(path) = &opt.starting_directory {
-            panel.set_path(path, opt.file_name.as_deref());
+            panel.set_path(path);
         }
 
         if let Some(title) = &opt.title {
@@ -509,7 +501,7 @@ impl Panel {
         }
 
         if let Some(path) = &opt.starting_directory {
-            panel.set_path(path, opt.file_name.as_deref());
+            panel.set_path(path);
         }
 
         if let Some(title) = &opt.title {
